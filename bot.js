@@ -50,35 +50,37 @@ function getQuotes(){
 	forismatic.getQuote({
 	    lang: 'en',
 	    generateKey: true
-	}, function (error, quote) {
+	},  (error, quote) => {
 	    if (!error) {
 	    	quote1 = quote.quoteText;
 	    	author1 = quote.quoteAuthor;
+
+	    		forismatic.getQuote({
+				    lang: 'en',
+				    generateKey: true
+				},  (error, quote) => {
+				    if (!error) {
+				    	quote2 = quote.quoteText;
+				    	author2 = quote.quoteAuthor;
+				    	postQuote();
+				        //console.log(quote);
+				    } else {
+				        console.error(error);
+				    }
+				});
+
 	        //console.log(quote);
 	    } else {
 	        console.error(error);
 	    }
 	});
 
-	forismatic.getQuote({
-	    lang: 'en',
-	    generateKey: true
-	}, function (error, quote) {
-	    if (!error) {
-	    	quote2 = quote.quoteText;
-	    	author2 = quote.quoteAuthor;
-	        //console.log(quote);
-	    } else {
-	        console.error(error);
-	    }
-	});
 }
 
 function repeatBot(){
 	//every 5 minutes, 
 	setTimeout(function(){
-	setTimeout(getQuotes, 5000);
-	setTimeout(postQuote, 10000);
+		getQuotes();
 		repeatBot();
 	}, 30000);
 }
